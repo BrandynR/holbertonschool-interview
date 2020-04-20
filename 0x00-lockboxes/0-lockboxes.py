@@ -2,8 +2,7 @@
 
 
 def canUnlockAll(boxes):
-    """Determine whether allKeys for all boxes are accessible """
-    
+    """Determine whether allKeys for all boxes are accessible """    
     boxlength = len(boxes)
 
     if boxlength == 0:
