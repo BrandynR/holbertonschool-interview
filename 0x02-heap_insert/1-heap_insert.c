@@ -67,7 +67,7 @@ int depth(heap_t *tree)
 }
 /**
  * insert_order - insert the node w/o heap order, levels one by one just
- *
+ * 
  * @head: actual leaf
  * @value: value to save
  * Return: the node in the binary tree
