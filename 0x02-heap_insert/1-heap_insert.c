@@ -1,146 +1,150 @@
 #include "binary_trees.h"
+/**
+ * change - change two nodes in order to respect max heap order
+ * @small: leaf with smaller n
+ * @big: leaf with bigger n
+ * @n: 1 if the change was to be in left side or 2 in right side
+ * @root: set the pointer to head in some circunstances
+ * Return: the new updated node
+ */
+heap_t *change(heap_t *small, heap_t *big, int n, heap_t **root)
+{
+	heap_t *aux = small->parent, *r = small->right, *l = small->left;
+	heap_t *r1 = big->right, *l1 = big->left;
 
-static int NOMEMORY;
+	big->parent = aux;
+	small->parent = big;
+	if (aux != NULL)
+	{
+		if (aux->left == small)
+			aux->left = big;
+		if (aux->right == small)
+			aux->right = big;
+	}
+	if (big->left != NULL)
+		big->left->parent = small;
+	if (big->right != NULL)
+		big->right->parent = small;
+	if (n == 1)
+	{
+		big->right = r;
+		big->left = small;
+		if (r != NULL)
+			r->parent = big;
+	}
+	else
+	{
+		big->left = l;
+		big->right = small;
+		if (l != NULL)
+			l->parent = big;
+	}
+	small->left = l1;
+	small->right = r1;
+	if (aux == NULL)
+		*root = big;
+	return (mayor);
+}
 
 /**
- * heap_insert - inserts a value into a max binary heap
- * @root: double pointer to the root node of the heap
- * @value: value stored in the node to be inserted
- *
- * Return: pointer to inserted node, or NULL on failure
+ * depth - return the depth of a binary tree
+ * @tree: binary tree to go through
+ * Return: 0 if it is already null or 1 or bigger of not
+ */
+int depth(heap_t *tree)
+{
+	int left = 1, right = 1, result;
+
+	if (!tree)
+		return (0);
+	left += deep(tree->left);
+	right += deep(tree->right);
+	if (right == left)
+		result = left + 1;
+	else
+		result = right < left ? right : left;
+	return (result);
+}
+/**
+ * insert_order - insert the node w/o heap order, levels one by one just
+ * 
+ * @head: actual leaf
+ * @value: value to save
+ * Return: the node in the binary tree
+ */
+heap_t *insert_order(heap_t *head, int value)
+{
+	int depthl, depthr;
+	heap_t *new;
+
+	depthl = depth(head->left);
+	depthr = depth(head->right);
+	if (depthl == 0 || depthr == 0)
+	{
+		new = malloc(sizeof(heap_t));
+		if (new == NULL)
+			return (NULL);
+		new->n = value;
+		if (depthl == 0)
+			head->left = new;
+		else
+			head->right = new;
+		new->parent = head;
+		new->left = NULL;
+		new->right = NULL;
+	}
+	else if (depthl <= depthr && depthl != 0)
+		new = insert_order(head->left, value);
+	else if (depthl > depthr)
+		new = insert_order(head->right, value);
+	return (new);
+}
+/**
+ * sort - sort the binary tree
+ * @head: leaf
+ * @root: pointer to the head of the binary tree
+ * Return: the node updated or the original
+ * if it respects the order of max heap
+ */
+heap_t *sort(heap_t *head, heap_t **root)
+{
+	heap_t *left, *right;
+
+	if (!head)
+		return (head);
+	left = sort(head->left, root);
+	right = sort(head->right, root);
+	if (left == NULL && right == NULL)
+		return (head);
+	if (left && left->n > head->n)
+		return (change(head, head->left, 1, root));
+	if (right && right->n > head->n)
+		return (change(head, head->right, 2, root));
+	return (head);
+}
+/**
+ * heap_insert - Creating a max heap Binary tree
+ * @root: pointer to head of binary tree
+ * @value: number inside the heap
+ * Return: return the node or NULL if it fails
  */
 heap_t *heap_insert(heap_t **root, int value)
 {
-	heap_t *insert;
+	heap_t *tree;
 
-	if (root == NULL)
-		return (NULL);
 	if (*root == NULL)
 	{
-		*root = binary_tree_node(*root, value);
-		insert = *root;
-	}
-	else
-	{
-		insert = tree_level(root, value);
-		maxheapify(&insert);
-	}
-	return (insert);
-}
-
-/**
- * tree_level - moveesthrough the tree in level order
- * @root: double pointer to root node
- * @value: value stored in the node to be inserted
- *
- * Return: a pointer to the inserted node, or return NULL on failure
- */
-heap_t *tree_level(heap_t **root, int value)
-{
-	queue *curq = NULL;
-	heap_t *insert, *cur = *root;
-
-	if (push_to_que(&curq, cur) == NULL)
-		return (NULL);
-	insert = NULL;
-	while (curq != NULL)
-	{
-		cur = curq->node;
-		//if (inserted == NULL)
-		//	node_insert(cur, &curq, &inserted, &cur->left, value);
-		if (insert == NULL)
-			node_insert(cur, &curq, &inserted, &cur->right, value);
-		if (NOMEMORY != NULL)
+		tree = malloc(sizeof(heap_t));
+		if (!tree)
 			return (NULL);
-		pop_que(&curq);
+		tree->parent = NULL;
+		tree->n = value;
+		tree->left = NULL;
+		tree->right = NULL;
+		*root = tree;
+		return (tree);
 	}
-	return (insert);
+	tree = insert_order(*root, value);
+	sort(*root, root);
+	return (tree);
 }
-
-/**
- * push_to_que - pushes address of cur to queue
- * @que_node: double pointer to queue node
- * @cur: pointer to current node
- *
- * Return: pointer to newly created queue node
- */
-queue *push_to_que(queue **que_node, heap_t *cur)
-{
-	queue **curq, *newq = malloc(sizeof(*newq));
-
-	if (newq == NULL)
-		return (NULL);
-	newq->node = cur;
-	newq->next = NULL;
-
-	curq = que_node;
-	while (*curq != NULL)
-		curq = &(*curq)->next;
-	newq->next = *curq;
-	*curq = newq;
-	return (newq);
-}
-
-/**
- * pop_que - pops node from queue
- * @que_node: double pointer to queue node
- */
-void pop_que(queue **qnode)
-{
-	queue *tmp;
-
-	if (*que_node != NULL)
-	{
-		tmp = *que_node;
-		*que_node = (*que_node)->next;
-		free(tmp);
-	}
-}
-
-/**
- * node_insert - pushes a node to the queue, then inserts to binary tree
- * @cur: pointer to current node
- * @curq: double pointer to current queue node
- * @insert: double pointer to inserted node
- * @dir: double pointer to cur direction
- * @value: value stored in the node to be inserted
- *
- * Return: pointer to inserted node
- */
-heap_t *node_insert(heap_t *cur, queue **curq, heap_t **inserted, heap_t **dir,
-		int value)
-{
-	if (*dir != NULL)
-	{
-	        if (push_to_que(curq, *dir) == NULL)
-			NOMEMORY = 1;
-	}
-	else
-	{
-		*dir = binary_tree_node(cur, value);
-		if (*dir == NULL)
-			NOMEMORY = 1;
-		*insert = *dir;
-	}
-	return (*insert);
-}
-
-/**
- * max_heap - swaps the node values so parent is greater than child values
- * @insert: node value 'n' to be swapped
- */
-void max_heap(heap_t **insert)
-{
-	heap_t *cur;
-	int tmp;
-
-	for (cur = *insert; cur->parent; cur = cur->parent)
-		if (cur->n > cur->parent->n)
-		{
-			tmp = cur->parent->n;
-			cur->parent->n = cur->n;
-			cur->n = tmp;
-			*insert = (*insert)->parent;
-		}
-}
-
