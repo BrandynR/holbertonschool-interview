@@ -43,7 +43,7 @@ heap_t *change(heap_t *small, heap_t *big, int n, heap_t **root)
 	small->right = r1;
 	if (aux == NULL)
 		*root = big;
-	return (mayor);
+	return (big);
 }
 
 /**
@@ -57,8 +57,8 @@ int depth(heap_t *tree)
 
 	if (!tree)
 		return (0);
-	left += deep(tree->left);
-	right += deep(tree->right);
+	left += depth(tree->left);
+	right += depth(tree->right);
 	if (right == left)
 		result = left + 1;
 	else
@@ -75,7 +75,7 @@ int depth(heap_t *tree)
 heap_t *insert_order(heap_t *head, int value)
 {
 	int depthl, depthr;
-	heap_t *new;
+	heap_t *new = NULL;
 
 	depthl = depth(head->left);
 	depthr = depth(head->right);
