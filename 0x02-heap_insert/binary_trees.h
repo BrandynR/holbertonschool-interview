@@ -34,5 +34,10 @@ typedef struct queue
 void binary_tree_print(const binary_tree_t *);
 binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
 heap_t *heap_insert(heap_t **root, int value);
+heap_t *tree_level(heap_t **root, int value);
+queue *push_to_que(queue **que_node, heap_t *cur);
+void pop_que(queue **qnode);
+heap_t *node_insert(heap_t *cur, queue **curq, heap_t **inserted, heap_t **dir, int value);
+void max_heap(heap_t **insert);
 
 #endif /* BINARY_TREES_H */
