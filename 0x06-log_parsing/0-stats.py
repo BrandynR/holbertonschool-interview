@@ -46,4 +46,3 @@ if __name__ == "__main__":
         raise
 
     print_10_lines()
-    
