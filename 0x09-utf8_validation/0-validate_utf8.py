@@ -1,44 +1,22 @@
 #!/usr/bin/python3
-"""method determines if a given data set represents a valid UTF-8 encoding"""
+"""determines if a given data set represents a valid UTF-8 encoding"""
 
 
 def validUTF8(data):
-    """
-        A method that determines if a given data set
-        represents a valid UTF-8 encoding
-    """
+    """ validate utf-8"""
 
-    utf8_data = ["{0:08b}".format(i) for i in data]
-    i = 0
-
-    while i < len(utf8_data):
-        try:
-            if utf8_data[i][:3] == '110':
-                t1 = utf8_data[i + 1]
-                if t1[:2] != '10':
-                    return False
-                i += 1
-
-            elif utf8_data[i][:4] == '1110':
-                s1, s2 = utf8_data[i + 1: i + 3]
-                if s1[:2] != '10' or s2[:2] != '10':
-                    return False
-                i += 2
-
-            elif utf8_data[i][:5] == '11110':
-                s1, s2, s3 = utf8_data[i + 1: i + 4]
-                s1 = s1[:2]
-                s2 = s2[:2]
-                s3 = s3[:2]
-                if ('10' == s1 == s2 == s3) is False:
-                    return False
-                i += 3
-
-            elif utf8_data[i][0] != '0':
+    bin_10 = 0
+    for bit in data:
+        bit = '{0:08b}'.format(bit)[-8:]
+        if bin_10 != 0:
+            bin_10 -= 1
+            if not bit.startswith('10'):
                 return False
-            i += 1
-        except Exception:
-            return False
-
+        elif bit[0] == '1':
+            bin_10 = len(bit.split('0')[0])
+            if bin_10 == 1 or bin_10 > 4:
+                return False
+            bin_10 -= 1
+    if bin_10 != 0:
+        return False
     return True
-
