@@ -28,13 +28,13 @@ int build_avl(int *arr, size_t left, size_t right, avl_t *parent)
 	else
 		parent->right = node;
 	if (index - left > 0)
-		if (!do_build_avl(arr, left, index, node))
+		if (!build_avl(arr, left, index, node))
 		{
 			free(node);
 			return (0);
 		}
 	if (right - index > 1)
-		if (!do_build_avl(arr, index + 1, right, node))
+		if (!build_avl(arr, index + 1, right, node))
 		{
 			free(node);
 			return (0);
@@ -64,13 +64,13 @@ avl_t *sorted_array_to_avl(int *array, size_t size)
 	root->left = NULL;
 	root->right = NULL;
 	if (mid > 0)
-		if (!do_build_avl(array, 0, mid, root))
+		if (!build_avl(array, 0, mid, root))
 		{
 			free(root);
 			return (NULL);
 		}
 	if (size - mid > 1)
-		if (!do_build_avl(array, mid + 1, size, root))
+		if (!build_avl(array, mid + 1, size, root))
 		{
 			free(root);
 			return (NULL);
