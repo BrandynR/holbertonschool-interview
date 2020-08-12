@@ -26,7 +26,7 @@ int len(skiplist_t *list)
  */
 skiplist_t *linear_skip(skiplist_t *list, int value)
 {
-	size_t cur_dex = 0, future_dex = 0;
+	size_t cur_dex = 0, fut_dex = 0;
 	int found_area = 0;
 	skiplist_t *ptr = list, *future;
 
@@ -50,7 +50,7 @@ skiplist_t *linear_skip(skiplist_t *list, int value)
 		{
 			if (found_area == 0)
 			{
-				future_dex = len(list);
+				fut_dex = len(list);
 				printf("Value found between indexes [%ld] and [%ld]\n", cur_dex, fut_dex);
 				found_area = 1;
 			}
