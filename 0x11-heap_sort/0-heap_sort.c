@@ -11,7 +11,7 @@ void swap(int *a, int *b)
 }
 
 /**
- * sift_down - move value down the tree if its children is greater than the value
+ * sift_down - move value down tree if its children is greater than the value
  * @array: array (represents binary tree)
  * @size: size of array
  * @n: size of array that is still unsorted
@@ -39,7 +39,7 @@ void sift_down(int *array, size_t size, size_t n, size_t i)
 }
 
 /**
- * heap_sort - sorts an array of integers in ascending order using the Heap sort algorithm
+ * heap_sort - sorts array of integers in ascending order using Heap Sort algo
  * @array: array to sort
  * @size: size of array
  */
