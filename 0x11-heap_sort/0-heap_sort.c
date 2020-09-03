@@ -19,16 +19,16 @@ void swap(int *a, int *b)
  */
 void sift_down(int *array, size_t size, size_t n, size_t i)
 {
-	size_t max, l, r;
+	size_t max, left, right;
 
 	do {
 		max = i;
-		l = 2 * i + 1;
-		r = 2 * i + 2;
-		if (l < n && array[l] > array[max])
-			max = l;
-		if (r < n && array[r] > array[max])
-			max = r;
+		left = 2 * i + 1;
+		right = 2 * i + 2;
+		if (left < n && array[left] > array[max])
+			max = left;
+		if (right < n && array[right] > array[max])
+			max = right;
 		if (max != i)
 		{
 			swap(array + i, array + max);
