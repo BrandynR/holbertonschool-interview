@@ -10,11 +10,11 @@ def count_words(subreddit, word_list, keyword={}, nxtpg=None, repeat={}):
 
     if nxtpg:
         subRed = requests.get('https://reddit.com/r/' + subreddit +
-                               '/hot.json?after=' + nxtpg,
-                               headers=headers)
+                              '/hot.json?after=' + nxtpg,
+                              headers=headers)
     else:
         subRed = requests.get('https://reddit.com/r/' + subreddit +
-                               '/hot.json', headers=headers)
+                              '/hot.json', headers=headers)
 
     if subRed.status_code == 404:
         return
