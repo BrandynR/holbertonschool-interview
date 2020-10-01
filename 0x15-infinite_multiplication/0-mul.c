@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "holberton.h"
 
-#define _UINT_MAX 4294967295u
+#define _INT_MAX 4294967295u
 
 /**
  * print_int - print integer from string
@@ -94,9 +94,9 @@ void mult(
 {
 	unsigned int digit1, digit2, power, product;
 
-	for (digit1 = len1 - 1; digit1 != _UINT_MAX; digit1--)
+	for (digit1 = len1 - 1; digit1 != _INT_MAX; digit1--)
 	{
-		for (digit2 = len2 - 1; digit2 != _UINT_MAX; digit2--)
+		for (digit2 = len2 - 1; digit2 != _INT_MAX; digit2--)
 		{
 			product = (first[digit1] - '0') * (sec[digit2] - '0');
 			power = (len1 - digit1) + (len2 - digit2) - 2;
@@ -108,9 +108,9 @@ void mult(
 }
 
 /**
- * error - Print error message and return error code
+ * err_prnt - Print error message and return error code
  */
-void error(void)
+void err_prnt(void)
 {
 	_putchar('E');
 	_putchar('r');
@@ -133,17 +133,17 @@ int main(int argc, char *argv[])
 	unsigned int i, len1, len2, lens;
 
 	if (argc != 3)
-		error();
+		err_prnt();
 	len1 = isnumeric(argv[1]);
 	if (len1 == 0)
-		error();
+		err_prnt();
 	len2 = isnumeric(argv[2]);
 	if (len2 == 0)
-		error();
+		err_prnt();
 	lens = len1 + len2;
 	sum = malloc(lens + 1);
 	if (sum == NULL)
-		error();
+		err_prnt();
 	sum[lens] = '\0';
 	for (i = 0; i < lens; i++)
 		sum[i] = '0';
