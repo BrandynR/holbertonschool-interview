@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-""" function to rotate a 2D matrix 90 degrees """
+"""function to rotate a 2D matrix """
 
 
 def rotate_2d_matrix(matrix):
-    """ rotate 2D matrix """
+    """rotate 2D matrix"""
 
     temp = [[0 for i in range(len(matrix[0]))] for j in range(len(matrix))]
     index = len(matrix[0]) - 1
