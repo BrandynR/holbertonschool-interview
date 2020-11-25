@@ -14,13 +14,13 @@ void count_sort(int *array, size_t size, int digit, int *sort_arr)
 	ssize_t j;
 
 	for (i = 0; i < size; i++)
-		count[array[i]++ / digit % 10];
+		++count[array[i] / digit % 10];
 	for (i = 1; i < BASE; i++)
 		count[i] += count[i - 1];
 	for (j = size - 1; j >= 0; j--)
 	{
 		sort_arr[count[array[j] / digit % 10] - 1] = array[j];
-		count[array[j]-- / digit % 10];
+		--count[array[j] / digit % 10];
 	}
 	memcpy(array, sort_arr, size * sizeof(*sort_arr));
 }
