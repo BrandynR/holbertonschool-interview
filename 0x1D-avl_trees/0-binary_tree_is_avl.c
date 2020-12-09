@@ -37,7 +37,7 @@ int bt_height(binary_tree_t const *tree, int height)
  * @small: smallest value in subtree
  * Return: 1 if binary search tree, else 0
  */
-int sort_tree(binary_tree_t const *tree, int *vsmall)
+int sort_tree(binary_tree_t const *tree, int *small)
 {
 	int base = INT_MIN;
 
@@ -54,7 +54,7 @@ int sort_tree(binary_tree_t const *tree, int *vsmall)
 		return (0);
 	
 	*small = tree->n;
-	return (sort_tree(tree->right, val));
+	return (sort_tree(tree->right, small));
 }
 
 
