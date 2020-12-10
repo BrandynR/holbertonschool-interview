@@ -11,20 +11,15 @@
  */
 int bt_height(binary_tree_t const *tree, int height)
 {
-	int left = 0, right = 0;
-
-	if (!tree)
-	  {
-	    return (height);
-	  }
-	height++;
-	left = bt_height(tree->left, height);
-	right = bt_height(tree->right, height);
-	if (left - right > 1 || left - right < -1)
-	  {
-	    return (-1);
-	  }
-	return (left > right ? left : right);
+int left = 0, right = 0;
+if (!tree)
+return (height);
+height++;
+left = bt_height(tree->left, height);
+right = bt_height(tree->right, height);
+if (left - right > 1 || left - right < -1)
+return (-1);
+return (left > right ? left : right);
 }
 
 
@@ -36,26 +31,18 @@ int bt_height(binary_tree_t const *tree, int height)
  */
 int sort_tree(binary_tree_t const *tree, int *small)
 {
-	int base = INT_MIN;
+int base = INT_MIN;
 
-	if (!small)
-	  {
-	    small = &base;
-	  }
-	if (!tree)
-	  {
-	    return (1);
-	  }
-	if (!sort_tree(tree->left, small))
-	  {
-	    return (0);
-	  }
-	if (tree->n <= *small)
-	  {
-	    return (0);
-	  }
-	*small = tree->n;
-	return (sort_tree(tree->right, small));
+if (!small)
+small = &base;
+if (!tree)
+return (1);
+if (!sort_tree(tree->left, small))
+return (0);
+if (tree->n <= *small)
+return (0);
+*small = tree->n;
+return (sort_tree(tree->right, small));
 }
 
 
@@ -66,17 +53,11 @@ int sort_tree(binary_tree_t const *tree, int *small)
  */
 int binary_tree_is_avl(binary_tree_t const *tree)
 {
-  if (!tree)
-    {
-      return (0);
-    }
-  if (!sort_tree(tree, NULL))
-    {
-      return (0);
-    }
-  if (bt_height(tree, 0) < 0)
-    {
-      return (0);
-    }
-  return (1);
+if (!tree)
+return (0);
+if (!sort_tree(tree, NULL))
+return (0);
+if (bt_height(tree, 0) < 0)
+return (0);
+return (1);
 }
