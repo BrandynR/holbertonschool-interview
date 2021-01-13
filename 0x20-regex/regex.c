@@ -1,7 +1,7 @@
 #include "regex.h"
 
 /**
-* regex_match - function that checks whether a given pattern matches a given string.
+* regex_match - function checks whether a given pattern matches a given string
 * @str: is the string to scan
 * @pattern: is the regular expression
 * Return: return 1 if true, 0 if not
@@ -10,9 +10,9 @@ int regex_match(char const *str, char const *pattern)
 {
 	int none = 0;
 
-	if (str == NULL)
+	if (!str)
 		return (none);
-	if (*str == NULL)
+	if (!*str)
 	{
 		if (*(pattern + 1) == '*')
 			return (regex_match(str, pattern + 2));
